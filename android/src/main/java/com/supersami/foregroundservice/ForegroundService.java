@@ -1,8 +1,5 @@
 package com.supersami.foregroundservice;
 
-import static com.supersami.foregroundservice.Constants.NOTIFICATION_CONFIG;
-import static com.supersami.foregroundservice.Constants.TASK_CONFIG;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -11,7 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import com.facebook.react.HeadlessJsTaskService;
+
+import static com.supersami.foregroundservice.Constants.*;
 
 public class ForegroundService extends Service {
 
@@ -44,14 +42,12 @@ public class ForegroundService extends Service {
 
 	@Override
 	public void onCreate() {
-		//Log.e("ForegroundService", "destroy called");
 		running = 0;
 		mInstance = this;
 	}
 
 	@Override
 	public void onDestroy() {
-		//Log.e("ForegroundService", "destroy called");
 		this.handler.removeCallbacks(this.runnableCode);
 		running = 0;
 		mInstance = null;
@@ -76,7 +72,7 @@ public class ForegroundService extends Service {
 
 			return true;
 		} catch (Exception e) {
-			Log.e("ForegroundService", "Failed to start service: " + e.getMessage());
+			Log.e(PROJECT_NAME, "Failed to start service: " + e.getMessage());
 			return false;
 		}
 	}
@@ -93,7 +89,7 @@ public class ForegroundService extends Service {
 			int delay = (int) taskConfig.getDouble("delay");
 
 			int loopDelay = (int) taskConfig.getDouble("loopDelay");
-			Log.d("SuperLog", "" + loopDelay);
+			Log.d(SUPER_LOG, "" + loopDelay);
 			handler.postDelayed(this, loopDelay);
 		}
 	};
@@ -109,8 +105,6 @@ public class ForegroundService extends Service {
 		 This provides a convenient way to submit jobs to a service without having to bind and call on to its interface.
 		 */
 
-		//Log.d("ForegroundService", "onStartCommand flags: " + String.valueOf(flags) + "  " + String.valueOf(startId));
-
 		if (action != null) {
 			if (action.equals(Constants.ACTION_FOREGROUND_SERVICE_START)) {
 				if (intent.getExtras() != null && intent.getExtras().containsKey(NOTIFICATION_CONFIG)) {
@@ -125,7 +119,7 @@ public class ForegroundService extends Service {
 					Bundle notificationConfig = intent.getExtras().getBundle(NOTIFICATION_CONFIG);
 
 					if (running <= 0) {
-						Log.d("ForegroundService", "Update Notification called without a running service, trying to restart service.");
+						Log.d(PROJECT_NAME, "Update Notification called without a running service, trying to restart service.");
 						startService(notificationConfig);
 					} else {
 						try {
@@ -138,21 +132,21 @@ public class ForegroundService extends Service {
 
 							lastNotificationConfig = notificationConfig;
 						} catch (Exception e) {
-							Log.e("ForegroundService", "Failed to update notification: " + e.getMessage());
+							Log.e(PROJECT_NAME, "Failed to update notification: " + e.getMessage());
 						}
 					}
 				}
 			} else if (action.equals(Constants.ACTION_FOREGROUND_RUN_TASK)) {
 				if (running <= 0 && lastNotificationConfig == null) {
-					Log.e("ForegroundService", "Service is not running to run tasks.");
+					Log.e(PROJECT_NAME, "Service is not running to run tasks.");
 					stopSelf();
 					return START_NOT_STICKY;
 				} else {
 					// try to re-start service if it was killed
 					if (running <= 0) {
-						Log.d("ForegroundService", "Run Task called without a running service, trying to restart service.");
+						Log.d(PROJECT_NAME, "Run Task called without a running service, trying to restart service.");
 						if (!startService(lastNotificationConfig)) {
-							Log.e("ForegroundService", "Service is not running to run tasks.");
+							Log.e(PROJECT_NAME, "Service is not running to run tasks.");
 							return START_REDELIVER_INTENT;
 						}
 					}
@@ -167,7 +161,7 @@ public class ForegroundService extends Service {
 								this.runHeadlessTask(taskConfig);
 							}
 						} catch (Exception e) {
-							Log.e("ForegroundService", "Failed to start task: " + e.getMessage());
+							Log.e(PROJECT_NAME, "Failed to start task: " + e.getMessage());
 						}
 					}
 				}
@@ -180,7 +174,7 @@ public class ForegroundService extends Service {
 						lastNotificationConfig = null;
 					}
 				} else {
-					Log.d("ForegroundService", "Service is not running to stop.");
+					Log.d(PROJECT_NAME, "Service is not running to stop.");
 					stopSelf();
 					lastNotificationConfig = null;
 				}
@@ -213,13 +207,12 @@ public class ForegroundService extends Service {
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					if (running <= 0) {
-						return;
-					}
+					if (running <= 0) return;
+
 					try {
 						getApplicationContext().startService(service);
 					} catch (Exception e) {
-						Log.e("ForegroundService", "Failed to start delayed headless task: " + e.getMessage());
+						Log.e(PROJECT_NAME, "Failed to start delayed headless task: " + e.getMessage());
 					}
 				}
 			}, delay);

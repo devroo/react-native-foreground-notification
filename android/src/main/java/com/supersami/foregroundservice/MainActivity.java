@@ -1,14 +1,13 @@
 package com.supersami.foregroundservice;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import com.facebook.react.ReactActivity;
-import com.facebook.react.ReactActivityDelegate;
-import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import static com.supersami.foregroundservice.Constants.*;
 
 public class MainActivity extends ReactActivity {
 
@@ -49,7 +48,7 @@ public class MainActivity extends ReactActivity {
 		try {
 			getReactInstanceManager().getCurrentReactContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("notificationClickHandle", map);
 		} catch (Exception e) {
-			Log.e("SuperLog", "Caught Exception: " + e.getMessage());
+			Log.e(SUPER_LOG, "Caught Exception: " + e.getMessage());
 		}
 	}
 }

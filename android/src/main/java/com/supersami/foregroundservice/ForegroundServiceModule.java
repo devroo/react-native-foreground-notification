@@ -1,21 +1,16 @@
 package com.supersami.foregroundservice;
 
-import static com.supersami.foregroundservice.Constants.ERROR_INVALID_CONFIG;
-import static com.supersami.foregroundservice.Constants.ERROR_SERVICE_ERROR;
-import static com.supersami.foregroundservice.Constants.NOTIFICATION_CONFIG;
-import static com.supersami.foregroundservice.Constants.TASK_CONFIG;
-
 import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.os.Build;
-import android.util.Log;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+
+import static com.supersami.foregroundservice.Constants.*;
 
 public class ForegroundServiceModule extends ReactContextBaseJavaModule {
 
@@ -28,7 +23,7 @@ public class ForegroundServiceModule extends ReactContextBaseJavaModule {
 
 	@Override
 	public String getName() {
-		return "ForegroundService";
+		return PROJECT_NAME;
 	}
 
 	private boolean isRunning() {

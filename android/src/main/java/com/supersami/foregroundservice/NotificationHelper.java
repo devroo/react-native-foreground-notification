@@ -14,8 +14,10 @@ import android.os.Bundle;
 import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
+import static com.supersami.foregroundservice.Constants.*;
+
 class NotificationHelper {
-	private static final String NOTIFICATION_CHANNEL_ID = "com.supersami.foregroundservice.channel";
+
 	private static NotificationHelper instance = null;
 	private NotificationManager mNotificationManager;
 	PendingIntent pendingBtnIntent;
@@ -39,7 +41,7 @@ class NotificationHelper {
 
 	Notification buildNotification(Context context, Bundle bundle) {
 		if (bundle == null) {
-			Log.e("NotificationHelper", "buildNotification: invalid config");
+			Log.e(NOTIFICATION_HELPER_LOG, "buildNotification: invalid config");
 			return null;
 		}
 		Class mainActivityClass = getMainActivityClass(context);
@@ -148,7 +150,6 @@ class NotificationHelper {
 
 
 		String iconName = bundle.getString("icon");
-		;
 
 		if (iconName == null) {
 			iconName = "ic_launcher";
@@ -173,6 +174,8 @@ class NotificationHelper {
 			int numberInt = Integer.parseInt(numberString);
 			if (numberInt > 0) {
 				notificationBuilder.setNumber(numberInt);
+			} else {
+				notificationBuilder.setNumber(0);
 			}
 		}
 
@@ -185,7 +188,6 @@ class NotificationHelper {
 
 		notificationBuilder.setOnlyAlertOnce(true);
 
-
 		return notificationBuilder.build();
 	}
 
@@ -193,13 +195,13 @@ class NotificationHelper {
 		String packageName = context.getPackageName();
 		Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
 		if (launchIntent == null || launchIntent.getComponent() == null) {
-			Log.e("NotificationHelper", "Failed to get launch intent or component");
+			Log.e(NOTIFICATION_HELPER_LOG, "Failed to get launch intent or component");
 			return null;
 		}
 		try {
 			return Class.forName(launchIntent.getComponent().getClassName());
 		} catch (ClassNotFoundException e) {
-			Log.e("NotificationHelper", "Failed to get main activity class");
+			Log.e(NOTIFICATION_HELPER_LOG, "Failed to get main activity class");
 			return null;
 		}
 	}
@@ -253,7 +255,7 @@ class NotificationHelper {
 		channel.setDescription(this.config.getChannelDescription());
 		channel.enableLights(true);
 		channel.enableVibration(bundle.getBoolean("vibration"));
-		channel.setShowBadge(true);
+		channel.setShowBadge(false);
 
 		manager.createNotificationChannel(channel);
 		channelCreated = true;

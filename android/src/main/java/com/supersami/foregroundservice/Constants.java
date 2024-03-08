@@ -14,4 +14,17 @@ class Constants {
 	static final String ERROR_INVALID_CONFIG = "ERROR_INVALID_CONFIG";
 	static final String ERROR_SERVICE_ERROR = "ERROR_SERVICE_ERROR";
 	static final String ERROR_ANDROID_VERSION = "ERROR_ANDROID_VERSION";
+
+	static final String KEY_CHANNEL_NAME = "com.supersami.foregroundservice.notification_channel_name";
+	static final String KEY_CHANNEL_DESCRIPTION = "com.supersami.foregroundservice.notification_channel_description";
+	static final String KEY_NOTIFICATION_COLOR = "com.supersami.foregroundservice.notification_color";
+
+	static final String NOTIFICATION_CHANNEL_ID = "com.supersami.foregroundservice.channel";
+	static final String PROJECT_NAME = "ForegroundService";
+	static final String SUPER_LOG = "SuperLog";
+	static final String NOTIFICATION_LOG = "NotificationConfig";
+	static final String NOTIFICATION_HELPER_LOG = "NotificationHelper";
+	static final String SERVICE_BUNDLE = "com.supersami.foregroundservice";
+
+
 }

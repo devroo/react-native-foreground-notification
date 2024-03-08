@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.core.content.res.ResourcesCompat;
 
-class NotificationConfig {
+import static com.supersami.foregroundservice.Constants.*;
 
-	private static final String KEY_CHANNEL_NAME = "com.supersami.foregroundservice.notification_channel_name";
-	private static final String KEY_CHANNEL_DESCRIPTION = "com.supersami.foregroundservice.notification_channel_description";
-	private static final String KEY_NOTIFICATION_COLOR = "com.supersami.foregroundservice.notification_color";
+class NotificationConfig {
 
 	private static Bundle metadata;
 	private Context context;
@@ -24,7 +22,7 @@ class NotificationConfig {
 				metadata = applicationInfo.metaData;
 			} catch (PackageManager.NameNotFoundException e) {
 				e.printStackTrace();
-				Log.e("NotificationConfig", "Error reading application meta, falling back to defaults");
+				Log.e(NOTIFICATION_LOG, "Error reading application meta, falling back to defaults");
 				metadata = new Bundle();
 			}
 		}
@@ -34,20 +32,20 @@ class NotificationConfig {
 		try {
 			return metadata.getString(KEY_CHANNEL_NAME);
 		} catch (Exception e) {
-			Log.w("NotificationConfig", "Unable to find " + KEY_CHANNEL_NAME + " in manifest. Falling back to default");
+			Log.w(NOTIFICATION_LOG, "Unable to find " + KEY_CHANNEL_NAME + " in manifest. Falling back to default");
 		}
 		// Default
-		return "com.supersami.foregroundservice";
+		return SERVICE_BUNDLE;
 	}
 
 	public String getChannelDescription() {
 		try {
 			return metadata.getString(KEY_CHANNEL_DESCRIPTION);
 		} catch (Exception e) {
-			Log.w("NotificationConfig", "Unable to find " + KEY_CHANNEL_DESCRIPTION + " in manifest. Falling back to default");
+			Log.w(NOTIFICATION_LOG, "Unable to find " + KEY_CHANNEL_DESCRIPTION + " in manifest. Falling back to default");
 		}
 		// Default
-		return "com.supersami.foregroundservice";
+		return SERVICE_BUNDLE;
 	}
 
 	public int getNotificationColor() {
@@ -55,7 +53,7 @@ class NotificationConfig {
 			int resourceId = metadata.getInt(KEY_NOTIFICATION_COLOR);
 			return ResourcesCompat.getColor(context.getResources(), resourceId, null);
 		} catch (Exception e) {
-			Log.w("NotificationConfig", "Unable to find " + KEY_NOTIFICATION_COLOR + " in manifest. Falling back to default");
+			Log.w(NOTIFICATION_LOG, "Unable to find " + KEY_NOTIFICATION_COLOR + " in manifest. Falling back to default");
 		}
 		// Default
 		return -1;

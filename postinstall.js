@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require('fs');
 
 const metadataTemplate = `
   <meta-data
@@ -19,29 +19,29 @@ const metadataTemplate = `
 
 const androidManifestPath = `${process.cwd()}/android/app/src/main/AndroidManifest.xml`;
 
-fs.readFile(androidManifestPath, "utf8", function (err, data) {
-  if (err) {
-    return console.log(err);
-  }
+fs.readFile(androidManifestPath, 'utf8', function (err, data) {
+    if (err) {
+        return console.log(err);
+    }
 
-  if (!data.includes(metadataTemplate)) {
-    const reg = /<application[^>]*>/;
-    const content = reg.exec(data)[0];
+    if (!data.includes(metadataTemplate)) {
+        const reg = /<application[^>]*>/;
+        const content = reg.exec(data)[0];
 
-    const result = data.replace(reg, `${content}${metadataTemplate}`);
-    console.log({ result });
+        const result = data.replace(reg, `${content}${metadataTemplate}`);
+        console.log({ result });
 
-    fs.writeFile(androidManifestPath, result, "utf8", function (err) {
-      if (err) return console.log(err);
-    });
-  }
+        fs.writeFile(androidManifestPath, result, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+    }
 });
 
 const colorTemplate = `
   <resources>
-    <item  name="blue"  type="color">#00C4D1
+    <item name="blue" type="color">#00C4D1
     </item>
-    <integer-array  name="androidcolors">
+    <integer-array name="androidcolors">
     <item>@color/blue</item>
     </integer-array>
   </resources>
@@ -49,10 +49,10 @@ const colorTemplate = `
 
 const colorFilePath = `${process.cwd()}/android/app/src/main/res/values/colors.xml`;
 
-fs.writeFile(colorFilePath, colorTemplate, "utf8", function (err) {
-  if (err) {
-    return console.log(err);
-  }
+fs.writeFile(colorFilePath, colorTemplate, 'utf8', function (err) {
+    if (err) {
+        return console.log(err);
+    }
 
-  console.log(`Successfully created color file at ${colorFilePath}`);
+    console.log(`Successfully created color file at ${colorFilePath}`);
 });

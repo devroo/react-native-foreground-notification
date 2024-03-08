@@ -173,6 +173,8 @@ class NotificationHelper {
 			int numberInt = Integer.parseInt(numberString);
 			if (numberInt > 0) {
 				notificationBuilder.setNumber(numberInt);
+			} else {
+				notificationBuilder.setNumber(0);
 			}
 		}
 
@@ -253,7 +255,7 @@ class NotificationHelper {
 		channel.setDescription(this.config.getChannelDescription());
 		channel.enableLights(true);
 		channel.enableVibration(bundle.getBoolean("vibration"));
-		channel.setShowBadge(true);
+		channel.setShowBadge(false);
 
 		manager.createNotificationChannel(channel);
 		channelCreated = true;

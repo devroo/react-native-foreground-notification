@@ -1,6 +1,6 @@
 {
     "name": "react-native-foreground-notification",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "description": "A Foreground Service for React Native",
     "main": "index.js",
     "repository": "react-native-foreground-notification",

@@ -11,10 +11,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+import androidx.core.app.NotificationCompat;
 
-import static com.supersami.foregroundservice.Constants.*;
+import static com.supersami.foregroundservice.Constants.NOTIFICATION_CHANNEL_ID;
+import static com.supersami.foregroundservice.Constants.NOTIFICATION_HELPER_LOG;
 
 class NotificationHelper {
 

@@ -188,6 +188,8 @@ class NotificationHelper {
 		}
 
 		notificationBuilder.setOnlyAlertOnce(true);
+		notificationBuilder.setSilent(true);
+		notificationBuilder.setShowWhen(false);
 
 		return notificationBuilder.build();
 	}
